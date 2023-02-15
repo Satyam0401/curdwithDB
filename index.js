@@ -1,8 +1,20 @@
 const express = require('express')
 const app = express()
+const engine = require('express-handlebars').engine
 const db = require('./model/connection')
 
 app.use(express.json())
+app.use(express.urlencoded({extended:true}))
+app.engine('handlebars', engine());
+app.set('view engine', 'handlebars');
+app.set('views', './views');
+
+
+//default page
+app.get("/",(req,res)=>{
+    res.render('home')
+})
+
 
 //Show User
 app.get("/showuser",(req,res) =>{
@@ -26,7 +38,8 @@ app.get("/showuser/email",(req,res) =>{
 
 //Add user
 app.post("/adduser",(req,res) =>{
-    const user = {name:req.body.name,email:req.body.email,phone:req.body.mobile,city:req.body.city}
+    console.log(req.body)
+    const user = {name:req.body.name,email:req.body.email,phone:req.body.phone,city:req.body.city}
     let sql = "INSERT INTO `employee` SET ?"
 db.query(sql,user,(err,result)=>{
     if(err) throw err 
