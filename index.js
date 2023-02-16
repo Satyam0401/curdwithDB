@@ -22,7 +22,7 @@ app.get("/showuser",(req,res) =>{
     db.query(sql,(err,result) =>{
         if(err) throw err
         else
-        res.json(result)
+        res.render('show',{list:result})
     })
 })
 
@@ -44,7 +44,7 @@ app.post("/adduser",(req,res) =>{
 db.query(sql,user,(err,result)=>{
     if(err) throw err 
     else
-    res.json(result)
+    res.redirect('/getData')
 })
 }) 
 
